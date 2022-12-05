@@ -2,15 +2,24 @@
     $do_print = false;
     $points = 0;
     $turn = 0;
-
+ 
     if (!empty($_GET)) {
         if(isset($_GET['answer'])) {
             check_solution($_GET['result'], encrypt($_GET['answer']));
             $secret_num = encrypt(generate_calculation(true));
+            $points = $_GET['score']+1;
+            $turn = $_GET['turn']+1;
+            if($turn == 5) {
+                echo "You won";
+                exit();
+            }
         }
     } else {
        $secret_num = encrypt(generate_calculation(true));
        echo $secret_num;
+       $points = 0;
+       $turn = 0;
+       $turn++;
     }
 
 
@@ -63,6 +72,10 @@
             <input type="number" name="answer">
             <input type="submit" value="send">
             <input type="hidden" name="result" value="<?php echo $secret_num?>">
+            <input type="hidden" name="score" value="<?php echo $points?>">
+            <input type="hidden" name="turn" value="<?php echo $turn?>">
+            <p><?php echo "Score:$points"?></p>
+            <p><?php echo "Turn:$turn"?></p>
         </form>
     </div>
 </body>
