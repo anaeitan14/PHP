@@ -1,6 +1,4 @@
 <?php
-    $points = 0;
-    $turn = 0;
     $first_num = random_int(1,9);
     $second_num = random_int(1,9);
     $result = $first_num * $second_num;
@@ -19,6 +17,8 @@
         }
     } else {
         $secret_num = encrypt($result);
+        $points = 0;
+        $turn = 1;
     }
 
     function encrypt($query) {
@@ -50,7 +50,7 @@
 <body>
     <?php
             if(isset($_GET['turn']) && $_GET['turn'] == 5) {
-                    $score = round($_GET['score']*100/$_GET['turn']);
+                    $score = round($points*100/$_GET['turn']);
                 ?>
                 <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
                     <h1>Your score is: <?php echo $score;?></h1>
