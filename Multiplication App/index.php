@@ -1,52 +1,31 @@
 <?php
-    $do_print = false;
     $points = 0;
     $turn = 0;
- 
+    $first_num = random_int(1,9);
+    $second_num = random_int(1,9);
+    $result = $first_num * $second_num;
+
     if (!empty($_GET)) {
         if(isset($_GET['answer'])) {
-            check_solution($_GET['result'], encrypt($_GET['answer']));
-            $secret_num = encrypt(generate_calculation(true));
-            $points = $_GET['score']+1;
-            $turn = $_GET['turn']+1;
-            if($turn == 5) {
-                echo "You won";
-                exit();
+            if(encrypt($_GET['answer']) == $_GET['result']) {
+                echo "Correct";
+                $points = $_GET['score']+1;
+            } else {
+                $points = $_GET['score'];
+                echo "Wrong";
             }
+            $turn = $_GET['turn']+1;
+            $secret_num = encrypt(($result));
         }
     } else {
-       $secret_num = encrypt(generate_calculation(true));
-       echo $secret_num;
-       $points = 0;
-       $turn = 0;
-       $turn++;
+        $secret_num = encrypt($result);
     }
-
 
     function encrypt($query) {
         $first_encrypt = md5($query);
         $final_encrypt = sha1($first_encrypt);
         return $final_encrypt;
     }
-
-    function generate_calculation($do_print) {
-        $first_num = random_int(1,10);
-        $second_num = random_int(1,10);
-        $result = $first_num * $second_num;
-        if($do_print) {
-            echo "<h1> $first_num X $second_num =</h1>";
-        }
-        return $result;
-    }
-
-    function check_solution($first, $second) {
-        if($first == $second) {
-            echo "You were right";
-        } else {
-            echo "You were wrong";
-        }
-    }
-   
 ?>
 
 
@@ -59,23 +38,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplication App</title>
     <style>
-        #container {
+        html {
             background-color: lightblue;
-            width:250px;
-            height:250px;
+        } 
+        #calc {
+            color:red;
         }
+
     </style>
 </head>
 <body>
-    <div id="container">
+    <?php
+            if(isset($_GET['turn']) && $_GET['turn'] == 5) {
+                    $score = round($_GET['score']*100/$_GET['turn']);
+                ?>
+                <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
+                    <h1>Your score is: <?php echo $score;?></h1>
+                    <input type="submit" value="    Restart    ">
+                </form>
+                <?php 
+                exit(); 
+            }?>
+            
+            <h2><?php echo "Points: $points<br> Turn:$turn"?></h2>
+            <hr>
         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="get">
+            <h1 id="calc"><?php echo "$first_num X $second_num = "; ?></h1>
             <input type="number" name="answer">
-            <input type="submit" value="send">
-            <input type="hidden" name="result" value="<?php echo $secret_num?>">
-            <input type="hidden" name="score" value="<?php echo $points?>">
-            <input type="hidden" name="turn" value="<?php echo $turn?>">
-            <p><?php echo "Score:$points"?></p>
-            <p><?php echo "Turn:$turn"?></p>
+            <br>
+            <input type="submit" value="Send">
+            <input type="hidden" name="result" value="<?php echo $secret_num;?>">
+            <input type="hidden" name="turn" value="<?php echo $turn;?>">
+            <input type="hidden" name="score" value="<?php echo $points;?>">
         </form>
     </div>
 </body>
