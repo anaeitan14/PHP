@@ -3,7 +3,7 @@
     $points = 0;
     $turn = 0;
  
-    if (!empty($_GET)) {
+    if (!empty($_GET['answer'])) {
         if(isset($_GET['answer'])) {
             check_solution($_GET['result'], encrypt($_GET['answer']));
             $secret_num = encrypt(generate_calculation(true));
@@ -67,7 +67,7 @@
     </style>
 </head>
 <body>
-    <div id="container">
+    <div id="container">    
         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="get">
             <input type="number" name="answer">
             <input type="submit" value="send">
