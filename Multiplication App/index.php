@@ -43,6 +43,7 @@
         } 
         #calc {
             color:red;
+            
         }
 
     </style>
