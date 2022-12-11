@@ -71,6 +71,5 @@
             <input type="hidden" name="turn" value="<?php echo $turn;?>">
             <input type="hidden" name="score" value="<?php echo $points;?>">
         </form>
-    </div>
 </body>
 </html>
