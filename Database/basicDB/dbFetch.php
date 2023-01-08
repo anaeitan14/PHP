@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Update table info    </title>
+    <title>Update table info </title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
     $con = mysqli_connect(HOST, USER, PASS, DATABASE);
     mysqli_set_charset($con, "utf8");
 
-    $sql = "SELECT * FROM users ORDER BY username";
+    $sql = "SELECT * FROM users";
     $res = mysqli_query($con, $sql);
 
     echo "<table>
